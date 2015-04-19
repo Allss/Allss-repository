@@ -1,0 +1,55 @@
+<html>
+	<head>
+		<title>Proga</title>
+		<style>
+			body { margin: 0 }
+			canvas { width: 100%; height: 100% }			
+		</style>
+	</head>
+	<body>	
+		<script  type="text/javascript" src="build/three.js"></script>	
+		<script type="text/javascript"  src="https://rawgit.com/Vasilui/habrahabr/master/WebGL_Three.js/libs/jquery-1.9.0.js"></script>
+		<script  type="text/javascript" src="https://rawgit.com/Vasilui/habrahabr/master/WebGL_Three.js/libs/dat.gui.js"></script>
+		<script  type="text/javascript" src="https://rawgit.com/Vasilui/habrahabr/master/WebGL_Three.js/libs/stats.js"></script>
+		<div id="WebGL-output"></div>
+		<script>
+			
+			var scene = new THREE.Scene();
+			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 ); 
+			var renderer = new THREE.WebGLRenderer();
+	
+			renderer.setSize( window.innerWidth, window.innerHeight );			
+			document.body.appendChild( renderer.domElement );	
+			
+			var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+			var material = new THREE.MeshLambertMaterial( { color: 0x00ffcc } );
+			var cube = new THREE.Mesh( geometry, material );
+			scene.add( cube );
+			 
+			var spotLight = new THREE.SpotLight( 0xffffff );
+			spotLight.position.set( 2, 2, 1 );
+			scene.add(spotLight );
+			
+			camera.position.z =1;
+			camera.position.x = 1;
+			camera.position.y = 1;
+			camera.lookAt(scene.position);
+			
+			var render = function () {			
+				requestAnimationFrame( render );
+				cube.rotation.x -= 0.01;
+				renderer.render(scene, camera);	};	
+			 render();		
+				   var controls = new function() {
+            this.Down = function() {
+			   	requestAnimationFrame( render );
+				cube.rotation.x += 0.1;		
+				renderer.render(scene, camera);
+				} }
+		 	render();
+		  $("#WebGL-output").append(renderer.domElement); 
+           var gui = new dat.GUI();
+        gui.add(controls, 'Down');   
+       	</script>
+	</body>
+</html>
